@@ -19,24 +19,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Put your API key here or in a .env file
 api_key = os.getenv("GEMINI_API_KEY") 
 
 if not api_key:
     raise ValueError("No API Key found! Check your .env file.")
 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-3-flash-preview') # Flash is faster for interactive chat
+model = genai.GenerativeModel('gemini-3-flash-preview') 
 
 # --- DATA MODELS ---
 class UserData(BaseModel):
-    chat_history: str # The raw conversation from the UI
-    job_description: Optional[str] = None # For tailoring
+    chat_history: str 
+    job_description: Optional[str] = None 
 
 class RoastRequest(BaseModel):
-    resume_json: str # The generated resume to critique
+    resume_json: str 
 
-# --- ENDPOINTS ---
 
 @app.post("/process-chat")
 async def process_chat(data: UserData):
@@ -131,9 +129,6 @@ async def gap_analysis(data: dict):
     """
     response = model.generate_content(prompt)
     return {"analysis": response.text}
-
-
-# --- ADD THIS TO backend/app.py ---
 
 class InterviewRequest(BaseModel):
     resume_data: str

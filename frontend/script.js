@@ -1,19 +1,15 @@
-// --- STATE MANAGEMENT ---
 let chatHistory = [];
-let generatedResumeData = null; // Stores the JSON resume
+let generatedResumeData = null; 
 let selectedTheme = 'coder';
 
-// --- NAVIGATION ---
+
 function showPage(pageId) {
-    // Hide all sections
     document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('bg-blue-600', 'text-white'));
-    
-    // Show selected
     document.getElementById(`page-${pageId}`).classList.remove('hidden');
 }
 
-// --- CHAT BUILDER LOGIC ---
+
 function addMessage(text, isUser = false) {
     const chatWindow = document.getElementById('chat-window');
     const div = document.createElement('div');
@@ -30,7 +26,6 @@ function addMessage(text, isUser = false) {
     chatWindow.appendChild(div);
     chatWindow.scrollTop = chatWindow.scrollHeight;
     
-    // Save to history
     chatHistory.push(`${isUser ? 'Student' : 'Bot'}: ${text}`);
 }
 
@@ -42,7 +37,7 @@ async function sendMessage() {
     addMessage(text, true);
     input.value = '';
 
-    // Simple Hacky "Bot" Logic for Demo (In real app, backend handles this)
+    
     setTimeout(() => {
         const lastUserMsg = chatHistory[chatHistory.length - 1].toLowerCase();
         let botReply = "Got it. Tell me about another project or skill.";
@@ -55,23 +50,21 @@ async function sendMessage() {
     }, 800);
 }
 
-// --- API FUNCTIONS ---
 
 async function finalizeResume() {
     addMessage("Analyzing your data and rewriting for ATS...", false);
     
     try {
-        const response = await fetch("http://127.0.0.1:8000/process-chat", {
+        const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/process-chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ chat_history: chatHistory.join("\n") })
         });
         const data = await response.json();
         
-        // Store the result
+    
         generatedResumeData = data.structured_data;
         
-        // Show in Preview Page
         document.getElementById('resume-preview').textContent = generatedResumeData;
         showPage('preview');
         
@@ -87,7 +80,7 @@ async function roastMyResume() {
     roastBox.classList.remove('hidden');
     document.getElementById('roast-content').innerHTML = "🔥 Roasting in progress...";
     
-    const response = await fetch("http://127.0.0.1:8000/roast-resume", {
+    const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/roast-resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resume_json: JSON.stringify(generatedResumeData) })
@@ -107,7 +100,7 @@ async function generateWebsite() {
     const loader = document.getElementById('portfolio-loader');
     loader.classList.remove('hidden');
     
-    const response = await fetch("http://127.0.0.1:8000/generate-portfolio", {
+    const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/generate-portfolio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -119,7 +112,6 @@ async function generateWebsite() {
     
     loader.classList.add('hidden');
     
-    // Inject HTML into Iframe
     const frame = document.getElementById('portfolio-frame');
     frame.contentWindow.document.open();
     frame.contentWindow.document.write(data.html);
@@ -135,7 +127,7 @@ async function analyzeGap() {
     resultsArea.classList.remove('hidden');
     document.getElementById('coach-content').innerHTML = "🧠 Analyzing gap...";
     
-    const response = await fetch("http://127.0.0.1:8000/coach-gap-analysis", {
+    const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/coach-gap-analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -144,24 +136,17 @@ async function analyzeGap() {
         })
     });
     const data = await response.json();
-    
-    // Format simple markdown to HTML line breaks
     document.getElementById('coach-content').innerHTML = data.analysis.replace(/\n/g, "<br>");
 }
 
-
-// --- MOCK INTERVIEW LOGIC ---
-
-// 1. Text-to-Speech (The AI speaks)
 function speakText(text) {
     const speech = new SpeechSynthesisUtterance(text);
     speech.lang = 'en-US';
-    speech.rate = 1; // Normal speed
+    speech.rate = 1;
     speech.pitch = 1;
     window.speechSynthesis.speak(speech);
 }
 
-// 2. Speech-to-Text (The User speaks)
 function startListening() {
     if (!('webkitSpeechRecognition' in window)) {
         alert("Your browser doesn't support speech recognition. Use Chrome!");
@@ -193,7 +178,6 @@ let currentQuestion = "";
 async function startMockInterview() {
     if (!generatedResumeData) return alert("Please generate your resume first so I know what to ask!");
 
-    // UI Updates
     const area = document.getElementById('coach-results');
     area.classList.remove('hidden');
     area.innerHTML = `
@@ -217,8 +201,7 @@ async function startMockInterview() {
         </div>
     `;
 
-    // Call Backend to get question
-    const response = await fetch("http://127.0.0.1:8000/interview/start", {
+    const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/interview/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -229,8 +212,7 @@ async function startMockInterview() {
     
     const data = await response.json();
     currentQuestion = data.question;
-    
-    // Display & Speak Question
+ 
     document.getElementById('ai-question').innerText = currentQuestion;
     speakText(currentQuestion);
 }
@@ -242,7 +224,7 @@ async function submitAnswer() {
     feedbackBox.classList.remove('hidden');
     feedbackBox.innerHTML = "🤔 Evaluating...";
     
-    const response = await fetch("http://127.0.0.1:8000/interview/evaluate", {
+    const response = await fetch("https://skillfolio-backend-9vmd.onrender.com/interview/evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

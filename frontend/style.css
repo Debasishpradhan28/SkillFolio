@@ -2,7 +2,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* Custom Scrollbar Styling */
+
 .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
 }
@@ -20,7 +20,6 @@ body {
     background: #a8a8a8;
 }
 
-/* Helper for the loader animation */
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
