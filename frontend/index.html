@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillFolio AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 text-slate-800 flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-slate-900 text-white flex flex-col">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-tight">SkillFolio<span class="text-blue-400">.ai</span></h1>
+            <p class="text-xs text-slate-400 mt-1">Career Copilot v1.0</p>
+        </div>
+        
+        <nav class="flex-1 px-4 space-y-2">
+            <button onclick="showPage('builder')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition">
+                <i class="fa-solid fa-comments"></i> Chat Builder
+            </button>
+            <button onclick="showPage('preview')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
+                <i class="fa-solid fa-file-contract"></i> Smart Resume
+            </button>
+            <button onclick="showPage('portfolio')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
+                <i class="fa-solid fa-globe"></i> Instant Portfolio
+            </button>
+            <button onclick="showPage('coach')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
+                <i class="fa-solid fa-user-graduate"></i> Career Coach
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-slate-800">
+            <div id="status-indicator" class="flex items-center gap-2 text-xs text-green-400">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> System Online
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto bg-slate-50 relative">
+
+        <section id="page-builder" class="page-section h-full flex flex-col p-8 max-w-3xl mx-auto">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-800">Tell me your story.</h2>
+                <p class="text-slate-500">I'll ask questions to extract your hidden skills.</p>
+            </div>
+            
+            <div id="chat-window" class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 overflow-y-auto space-y-4 mb-4">
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-sm max-w-[80%]">
+                        Hi! I'm Gemini. Let's build your resume. First, what is your <b>Full Name</b> and the <b>Role</b> you are targeting?
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <input type="text" id="user-input" class="flex-1 border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your answer...">
+                <button onclick="sendMessage()" class="bg-blue-600 text-white px-6 rounded-xl hover:bg-blue-700 transition"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            
+            <button onclick="finalizeResume()" class="mt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-slate-800 transition">
+                ✨ Finish & Generate Resume JSON
+            </button>
+        </section>
+
+        <section id="page-preview" class="page-section hidden p-8 h-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Your Smart Resume</h2>
+                <div class="flex gap-2">
+                    <button onclick="roastMyResume()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold shadow-md transition">
+                        🔥 Roast Me
+                    </button>
+                    <button class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-bold transition">
+                        <i class="fa-solid fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6 h-full">
+                <div class="col-span-2 bg-white rounded-xl shadow p-6 overflow-y-auto border border-slate-200">
+                    <pre id="resume-preview" class="text-xs font-mono text-slate-600 whitespace-pre-wrap">Generate your resume in the Builder first...</pre>
+                </div>
+                <div id="roast-box" class="col-span-1 bg-red-50 rounded-xl border border-red-100 p-6 hidden">
+                    <h3 class="text-red-700 font-bold mb-2"><i class="fa-solid fa-fire"></i> The Roast</h3>
+                    <p id="roast-content" class="text-sm text-red-800 leading-relaxed"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-portfolio" class="page-section hidden p-8 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-2xl font-bold">Instant Portfolio</h2>
+                    <p class="text-sm text-slate-500">Turn your resume into a website in one click.</p>
+                </div>
+                <div class="flex gap-2 bg-white p-1 rounded-lg border border-slate-200">
+                    <button onclick="setTheme('coder')" class="px-3 py-1 text-sm rounded hover:bg-slate-100">👨‍💻 Coder</button>
+                    <button onclick="setTheme('designer')" class="px-3 py-1 text-sm rounded hover:bg-slate-100">🎨 Designer</button>
+                </div>
+                <button onclick="generateWebsite()" class="bg-purple-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-purple-700 transition">
+                    🚀 Generate Website
+                </button>
+            </div>
+            
+            <div class="flex-1 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative">
+                <iframe id="portfolio-frame" class="w-full h-full bg-white"></iframe>
+                <div id="portfolio-loader" class="hidden absolute inset-0 bg-white/80 flex flex-col items-center justify-center">
+                    <div class="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="mt-2 font-medium text-purple-700">Coding your website...</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-coach" class="page-section hidden p-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-6">Career Coach & Gap Analysis</h2>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                <label class="block font-bold text-sm mb-2">Paste Job Description</label>
+                <textarea id="job-description" class="w-full border border-slate-300 rounded-lg p-3 text-sm h-32" placeholder="Paste the JD here..."></textarea>
+                <div class="flex gap-4 mt-4">
+                    <button onclick="analyzeGap()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 transition">
+                        📊 Analyze Skill Gap
+                    </button>
+                    <button onclick="startMockInterview()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition">
+    🎤 Start Mock Interview
+</button>
+                </div>
+            </div>
+
+            <div id="coach-results" class="bg-slate-100 p-6 rounded-xl hidden">
+                <h3 class="font-bold text-slate-800 mb-2">Analysis Results:</h3>
+                <div id="coach-content" class="prose prose-sm text-slate-700"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
