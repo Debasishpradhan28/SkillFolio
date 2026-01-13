@@ -236,3 +236,9 @@ async function submitAnswer() {
     const data = await response.json();
     feedbackBox.innerHTML = `<b>Feedback:</b> ${data.feedback}`;
 }
+document.getElementById("user-input").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); 
+        sendMessage(); 
+    }
+});

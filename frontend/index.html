@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-50 text-slate-800 flex flex-col lg:flex-row h-screen overflow-hidden">
+<body class="bg-gray-50 text-slate-800 flex flex-col lg:flex-row h-[100dvh] overflow-hidden">
 
     <aside class="hidden lg:flex w-64 bg-slate-900 text-white flex-col z-20">
         <div class="p-6">
@@ -69,9 +69,9 @@
                 <button onclick="sendMessage()" class="bg-blue-600 text-white px-5 rounded-xl hover:bg-blue-700 transition shadow-lg"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
             
-            <button onclick="finalizeResume()" class="mt-4 w-full bg-slate-900 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-slate-800 transition text-sm lg:text-base active:scale-95 transform duration-150">
-                ✨ Finish & Generate Resume
-            </button>
+            <button onclick="finalizeResume()" class="mt-4 w-full bg-slate-900 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-slate-800 transition text-sm lg:text-base active:scale-95 transform duration-150 mb-20 lg:mb-0">
+    ✨ Finish & Generate Resume
+</button>
         </section>
 
         <section id="page-preview" class="page-section hidden p-4 lg:p-8 h-full overflow-y-auto">
@@ -182,36 +182,35 @@
     <script src="script.js"></script>
 
     <script>
-        // Override showPage to handle both Desktop Sidebar AND Mobile Bottom Tabs
         const originalShowPage = window.showPage || function(){};
         
         window.showPage = function(pageId) {
-            // 1. Hide all pages
+
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             
-            // 2. Show selected page
+           
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
 
-            // 3. Reset Desktop Sidebar Styles
+            
             document.querySelectorAll('.nav-btn').forEach(el => {
                 el.classList.remove('bg-blue-600', 'text-white');
                 el.classList.add('text-slate-300', 'hover:bg-slate-800');
             });
-            // Activate clicked Desktop Button
+            
             const deskBtn = document.getElementById(`desk-btn-${pageId}`);
             if(deskBtn) {
                 deskBtn.classList.remove('text-slate-300', 'hover:bg-slate-800');
                 deskBtn.classList.add('bg-blue-600', 'text-white');
             }
 
-            // 4. Reset Mobile Bottom Nav Styles
+           
             document.querySelectorAll('.nav-btn-mobile').forEach(el => {
                 el.classList.remove('text-blue-600');
                 el.classList.add('text-slate-400');
                 el.querySelector('span').classList.remove('font-bold');
                 el.querySelector('span').classList.add('font-medium');
             });
-            // Activate clicked Mobile Button
+            
             const mobBtn = document.getElementById(`mob-btn-${pageId}`);
             if(mobBtn) {
                 mobBtn.classList.remove('text-slate-400');
