@@ -2,33 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillFolio AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>SkillFolio AI</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-50 text-slate-800 flex h-screen overflow-hidden">
+<body class="bg-gray-50 text-slate-800 flex flex-col lg:flex-row h-screen overflow-hidden">
 
-    <aside class="w-64 bg-slate-900 text-white flex flex-col">
+    <aside class="hidden lg:flex w-64 bg-slate-900 text-white flex-col z-20">
         <div class="p-6">
             <h1 class="text-2xl font-bold tracking-tight">SkillFolio<span class="text-blue-400">.ai</span></h1>
             <p class="text-xs text-slate-400 mt-1">Career Copilot v1.0</p>
         </div>
         
         <nav class="flex-1 px-4 space-y-2">
-            <button onclick="showPage('builder')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition">
-                <i class="fa-solid fa-comments"></i> Chat Builder
+            <button onclick="showPage('builder')" id="desk-btn-builder" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition text-left">
+                <i class="fa-solid fa-comments w-5"></i> Chat Builder
             </button>
-            <button onclick="showPage('preview')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
-                <i class="fa-solid fa-file-contract"></i> Smart Resume
+            <button onclick="showPage('preview')" id="desk-btn-preview" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 text-left">
+                <i class="fa-solid fa-file-contract w-5"></i> Smart Resume
             </button>
-            <button onclick="showPage('portfolio')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
-                <i class="fa-solid fa-globe"></i> Instant Portfolio
+            <button onclick="showPage('portfolio')" id="desk-btn-portfolio" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 text-left">
+                <i class="fa-solid fa-globe w-5"></i> Instant Portfolio
             </button>
-            <button onclick="showPage('coach')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300">
-                <i class="fa-solid fa-user-graduate"></i> Career Coach
+            <button onclick="showPage('coach')" id="desk-btn-coach" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 text-left">
+                <i class="fa-solid fa-user-graduate w-5"></i> Career Coach
             </button>
         </nav>
 
@@ -39,98 +40,107 @@
         </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto bg-slate-50 relative">
+    <header class="lg:hidden bg-slate-900 text-white p-4 flex justify-between items-center shadow-md z-20">
+        <h1 class="font-bold text-lg">SkillFolio<span class="text-blue-400">.ai</span></h1>
+        <div class="flex items-center gap-2 text-xs text-green-400">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Online
+        </div>
+    </header>
 
-        <section id="page-builder" class="page-section h-full flex flex-col p-8 max-w-3xl mx-auto">
-            <div class="mb-6">
-                <h2 class="text-3xl font-bold text-slate-800">Tell me your story.</h2>
-                <p class="text-slate-500">I'll ask questions to extract your hidden skills.</p>
+    <main class="flex-1 overflow-y-auto bg-slate-50 relative pb-24 lg:pb-0">
+
+        <section id="page-builder" class="page-section h-full flex flex-col p-4 lg:p-8 max-w-3xl mx-auto">
+            <div class="mb-4 lg:mb-6">
+                <h2 class="text-2xl lg:text-3xl font-bold text-slate-800">Tell me your story.</h2>
+                <p class="text-sm lg:text-base text-slate-500">I'll ask questions to extract your hidden skills.</p>
             </div>
             
-            <div id="chat-window" class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 overflow-y-auto space-y-4 mb-4">
-                <div class="flex gap-4">
-                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fa-solid fa-robot"></i></div>
-                    <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-sm max-w-[80%]">
+            <div id="chat-window" class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 overflow-y-auto space-y-4 mb-4 min-h-[300px]">
+                <div class="flex gap-3 lg:gap-4">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-sm max-w-[85%]">
                         Hi! I'm Gemini. Let's build your resume. First, what is your <b>Full Name</b> and the <b>Role</b> you are targeting?
                     </div>
                 </div>
             </div>
 
             <div class="flex gap-2">
-                <input type="text" id="user-input" class="flex-1 border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your answer...">
-                <button onclick="sendMessage()" class="bg-blue-600 text-white px-6 rounded-xl hover:bg-blue-700 transition"><i class="fa-solid fa-paper-plane"></i></button>
+                <input type="text" id="user-input" class="flex-1 border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-sm" placeholder="Type answer...">
+                <button onclick="sendMessage()" class="bg-blue-600 text-white px-5 rounded-xl hover:bg-blue-700 transition shadow-lg"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
             
-            <button onclick="finalizeResume()" class="mt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-slate-800 transition">
-                ✨ Finish & Generate Resume JSON
+            <button onclick="finalizeResume()" class="mt-4 w-full bg-slate-900 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-slate-800 transition text-sm lg:text-base active:scale-95 transform duration-150">
+                ✨ Finish & Generate Resume
             </button>
         </section>
 
-        <section id="page-preview" class="page-section hidden p-8 h-full">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Your Smart Resume</h2>
-                <div class="flex gap-2">
-                    <button onclick="roastMyResume()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold shadow-md transition">
+        <section id="page-preview" class="page-section hidden p-4 lg:p-8 h-full overflow-y-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 lg:mb-6 gap-4">
+                <h2 class="text-xl lg:text-2xl font-bold">Your Smart Resume</h2>
+                <div class="flex gap-2 w-full lg:w-auto">
+                    <button onclick="roastMyResume()" class="flex-1 lg:flex-none bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-bold shadow-md text-sm transition">
                         🔥 Roast Me
                     </button>
-                    <button class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-bold transition">
-                        <i class="fa-solid fa-download"></i> Download PDF
+                    <button class="flex-1 lg:flex-none bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg font-bold text-sm transition">
+                        <i class="fa-solid fa-download"></i> PDF
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-6 h-full">
-                <div class="col-span-2 bg-white rounded-xl shadow p-6 overflow-y-auto border border-slate-200">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white rounded-xl shadow p-4 lg:p-6 overflow-x-auto border border-slate-200 min-h-[400px]">
                     <pre id="resume-preview" class="text-xs font-mono text-slate-600 whitespace-pre-wrap">Generate your resume in the Builder first...</pre>
                 </div>
-                <div id="roast-box" class="col-span-1 bg-red-50 rounded-xl border border-red-100 p-6 hidden">
+                <div id="roast-box" class="lg:col-span-1 bg-red-50 rounded-xl border border-red-100 p-4 lg:p-6 hidden">
                     <h3 class="text-red-700 font-bold mb-2"><i class="fa-solid fa-fire"></i> The Roast</h3>
                     <p id="roast-content" class="text-sm text-red-800 leading-relaxed"></p>
                 </div>
             </div>
         </section>
 
-        <section id="page-portfolio" class="page-section hidden p-8 h-full flex flex-col">
-            <div class="flex justify-between items-center mb-4">
+        <section id="page-portfolio" class="page-section hidden p-4 lg:p-8 h-full flex flex-col">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold">Instant Portfolio</h2>
-                    <p class="text-sm text-slate-500">Turn your resume into a website in one click.</p>
+                    <h2 class="text-xl lg:text-2xl font-bold">Instant Portfolio</h2>
+                    <p class="text-xs lg:text-sm text-slate-500">Turn your resume into a website.</p>
                 </div>
-                <div class="flex gap-2 bg-white p-1 rounded-lg border border-slate-200">
-                    <button onclick="setTheme('coder')" class="px-3 py-1 text-sm rounded hover:bg-slate-100">👨‍💻 Coder</button>
-                    <button onclick="setTheme('designer')" class="px-3 py-1 text-sm rounded hover:bg-slate-100">🎨 Designer</button>
+                <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+                    <div class="flex gap-1 bg-white p-1 rounded-lg border border-slate-200">
+                        <button onclick="setTheme('coder')" class="px-3 py-1 text-xs rounded hover:bg-slate-100">👨‍💻 Code</button>
+                        <button onclick="setTheme('designer')" class="px-3 py-1 text-xs rounded hover:bg-slate-100">🎨 Design</button>
+                    </div>
+                    <button onclick="generateWebsite()" class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-purple-700 transition text-sm shadow-md">
+                        🚀 Generate
+                    </button>
                 </div>
-                <button onclick="generateWebsite()" class="bg-purple-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-purple-700 transition">
-                    🚀 Generate Website
-                </button>
             </div>
             
-            <div class="flex-1 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative">
+            <div class="flex-1 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative min-h-[500px]">
                 <iframe id="portfolio-frame" class="w-full h-full bg-white"></iframe>
                 <div id="portfolio-loader" class="hidden absolute inset-0 bg-white/80 flex flex-col items-center justify-center">
                     <div class="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="mt-2 font-medium text-purple-700">Coding your website...</p>
+                    <p class="mt-2 font-medium text-purple-700 text-sm">Coding your website...</p>
                 </div>
             </div>
         </section>
 
-        <section id="page-coach" class="page-section hidden p-8 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold mb-6">Career Coach & Gap Analysis</h2>
+        <section id="page-coach" class="page-section hidden p-4 lg:p-8 max-w-4xl mx-auto h-full overflow-y-auto">
+            <h2 class="text-xl lg:text-2xl font-bold mb-4">Career Coach</h2>
             
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+            <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
                 <label class="block font-bold text-sm mb-2">Paste Job Description</label>
-                <textarea id="job-description" class="w-full border border-slate-300 rounded-lg p-3 text-sm h-32" placeholder="Paste the JD here..."></textarea>
-                <div class="flex gap-4 mt-4">
-                    <button onclick="analyzeGap()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-emerald-700 transition">
+                <textarea id="job-description" class="w-full border border-slate-300 rounded-lg p-3 text-sm h-24 lg:h-32 focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Paste JD here..."></textarea>
+                <div class="flex flex-col lg:flex-row gap-3 mt-4">
+                    <button onclick="analyzeGap()" class="bg-emerald-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-emerald-700 transition text-sm shadow-md">
                         📊 Analyze Skill Gap
                     </button>
-                    <button onclick="startMockInterview()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition">
-    🎤 Start Mock Interview
-</button>
+                    <button onclick="startMockInterview()" class="bg-blue-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-blue-700 transition text-sm shadow-md">
+                        🎤 Start Mock Interview
+                    </button>
                 </div>
             </div>
 
-            <div id="coach-results" class="bg-slate-100 p-6 rounded-xl hidden">
+            <div id="coach-results" class="bg-slate-100 p-4 lg:p-6 rounded-xl hidden mb-20">
                 <h3 class="font-bold text-slate-800 mb-2">Analysis Results:</h3>
                 <div id="coach-content" class="prose prose-sm text-slate-700"></div>
             </div>
@@ -138,6 +148,78 @@
 
     </main>
 
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around items-center p-2 z-50 pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        
+        <button onclick="showPage('builder')" id="mob-btn-builder" class="nav-btn-mobile flex flex-col items-center p-2 text-blue-600 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-full mb-1">
+                <i class="fa-solid fa-comments text-lg"></i>
+            </div>
+            <span class="text-[10px] font-bold">Chat</span>
+        </button>
+
+        <button onclick="showPage('preview')" id="mob-btn-preview" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-full mb-1">
+                <i class="fa-solid fa-file-contract text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Resume</span>
+        </button>
+
+        <button onclick="showPage('portfolio')" id="mob-btn-portfolio" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-full mb-1">
+                <i class="fa-solid fa-globe text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Web</span>
+        </button>
+
+        <button onclick="showPage('coach')" id="mob-btn-coach" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-full mb-1">
+                <i class="fa-solid fa-user-graduate text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Coach</span>
+        </button>
+    </nav>
+
     <script src="script.js"></script>
+
+    <script>
+        // Override showPage to handle both Desktop Sidebar AND Mobile Bottom Tabs
+        const originalShowPage = window.showPage || function(){};
+        
+        window.showPage = function(pageId) {
+            // 1. Hide all pages
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            
+            // 2. Show selected page
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+
+            // 3. Reset Desktop Sidebar Styles
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white');
+                el.classList.add('text-slate-300', 'hover:bg-slate-800');
+            });
+            // Activate clicked Desktop Button
+            const deskBtn = document.getElementById(`desk-btn-${pageId}`);
+            if(deskBtn) {
+                deskBtn.classList.remove('text-slate-300', 'hover:bg-slate-800');
+                deskBtn.classList.add('bg-blue-600', 'text-white');
+            }
+
+            // 4. Reset Mobile Bottom Nav Styles
+            document.querySelectorAll('.nav-btn-mobile').forEach(el => {
+                el.classList.remove('text-blue-600');
+                el.classList.add('text-slate-400');
+                el.querySelector('span').classList.remove('font-bold');
+                el.querySelector('span').classList.add('font-medium');
+            });
+            // Activate clicked Mobile Button
+            const mobBtn = document.getElementById(`mob-btn-${pageId}`);
+            if(mobBtn) {
+                mobBtn.classList.remove('text-slate-400');
+                mobBtn.classList.add('text-blue-600');
+                mobBtn.querySelector('span').classList.remove('font-medium');
+                mobBtn.querySelector('span').classList.add('font-bold');
+            }
+        };
+    </script>
 </body>
 </html>
