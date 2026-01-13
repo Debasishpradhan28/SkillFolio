@@ -88,6 +88,103 @@ async function roastMyResume() {
     const data = await response.json();
     document.getElementById('roast-content').innerText = data.roast;
 }
+async function downloadPDF() {
+    if (!generatedResumeData) {
+        alert("Please generate a resume first!");
+        return;
+    }
+
+
+    const name = generatedResumeData.personal_info?.name || "Candidate Name";
+    const role = generatedResumeData.personal_info?.role || "Software Engineer";
+    const contact = generatedResumeData.personal_info?.contact || "email@example.com | linkedin.com/in/you";
+    const skills = generatedResumeData.skills || [];
+    const experience = generatedResumeData.experience || [];
+    const projects = generatedResumeData.projects || [];
+
+    const resumeTemplate = `
+        <div style="font-family: 'Times New Roman', serif; padding: 40px; color: #1a202c; line-height: 1.5;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+                <div>
+                    <h1 style="font-size: 32px; font-weight: bold; text-transform: uppercase; margin: 0;">${name}</h1>
+                    <p style="font-size: 16px; margin: 5px 0 0 0;">${role}</p>
+                    <p style="font-size: 12px; color: #555; margin: 2px 0 0 0;">${contact}</p>
+                </div>
+                <div style="text-align: center;">
+                    <div id="pdf-qrcode"></div>
+                    <p style="font-size: 9px; margin-top: 2px; font-family: sans-serif;">Scan for Portfolio</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 16px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-bottom: 8px;">Technical Skills</h3>
+                <p style="font-size: 12px; margin: 0;">${skills.join(" • ")}</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 16px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-bottom: 10px;">Professional Experience</h3>
+                ${experience.map(exp => `
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px;">
+                            <span>${exp.title}</span>
+                            <span>${exp.company || "Project/Self-Employed"}</span>
+                        </div>
+                        <ul style="font-size: 12px; margin: 5px 0 0 20px; padding: 0;">
+                            ${exp.points.map(p => `<li style="margin-bottom: 2px;">${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 16px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-bottom: 10px;">Key Projects</h3>
+                ${projects.map(proj => `
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-weight: bold; font-size: 14px;">${proj.name}</div>
+                        <div style="font-size: 11px; font-style: italic; color: #444; margin-bottom: 2px;">Tech Stack: ${proj.tech || "N/A"}</div>
+                        <p style="font-size: 12px; margin: 0;">${proj.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+            
+        </div>
+    `;
+
+  
+    const container = document.createElement('div');
+    container.innerHTML = resumeTemplate;
+    container.style.width = '800px'; 
+    document.body.appendChild(container);
+
+
+    const liveUrl = "https://skillfolio-frontend.onrender.com"; 
+    new QRCode(container.querySelector("#pdf-qrcode"), {
+        text: liveUrl,
+        width: 60,
+        height: 60,
+        colorDark : "#000000",
+        colorLight : "#ffffff"
+    });
+
+
+    const opt = {
+        margin:       0.5, 
+        filename:     `${name.replace(" ", "_")}_Resume.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 }, 
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    try {
+        await html2pdf().set(opt).from(container).save();
+    } catch (e) {
+        console.error(e);
+        alert("Error generating PDF");
+    } finally {
+        document.body.removeChild(container);
+    }
+}
 
 function setTheme(theme) {
     selectedTheme = theme;
