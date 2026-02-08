@@ -1,1 +1,1 @@
-Frontend link - https://skillfolio-frontend.onrender.com
+Deployed link - https://skillfolio-frontend.onrender.com
