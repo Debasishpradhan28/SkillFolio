@@ -64,7 +64,8 @@ Follow these steps to run SkillFolio locally.
 git clone [https://github.com/yourusername/skillfolio-ai.git](https://github.com/yourusername/skillfolio-ai.git)
 cd skillfolio-ai
 ```
-2. Backend Setup
+### 2. Backend Setup
+
 Navigate to the backend folder and install dependencies.
 ```bash
 cd backend
@@ -80,7 +81,8 @@ uvicorn app:app --reload
 ```
 Server will start at http://127.0.0.1:8000
 
-3. Frontend Setup
+### 3. Frontend Setup
+
 Open a new terminal, go to the frontend folder, and start a simple server.
 ```bash
 cd ../frontend
@@ -95,7 +97,7 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 Deployed link - https://skillfolio-frontend.onrender.com
 
-Made with ❤️ by [Debasish Pradhan]
+Made with ❤️ by Debasish Pradhan
 
 
 
