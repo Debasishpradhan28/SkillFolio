@@ -36,12 +36,10 @@ class RoastRequest(BaseModel):
     resume_json: str 
 
 
+
+
 @app.post("/process-chat")
 async def process_chat(data: UserData):
-    """
-    PHASE 1: THE EXPERIENCE ALCHEMIST
-    Takes raw chat logs and turns them into structured, professional JSON.
-    """
     prompt = f"""
     You are an expert Resume Writer. Read this conversation between a bot and a student:
     {data.chat_history}
@@ -51,16 +49,31 @@ async def process_chat(data: UserData):
     1. Rewrite their simple project descriptions to sound like executive achievements (Use "Architected", "Deployed", "Optimized").
     2. If they mentioned numbers (latency, users), highlight them.
     
-    Output JSON format:
+    Output JSON format strictly matching this structure:
     {{
-        "personal_info": {{ "name": "...", "role": "...", "contact": "..." }},
+        "personal_info": {{ 
+            "name": "...", 
+            "role": "...", 
+            "email": "...", 
+            "phone": "...", 
+            "location": "..." 
+        }},
+        "about_me": "A brief 2-3 sentence professional summary highlighting passion and expertise.",
         "skills": ["..."],
-        "experience": [ {{ "title": "...", "company": "...", "points": ["..."] }} ],
-        "projects": [ {{ "name": "...", "tech": "...", "description": "..." }} ]
+        "education": [
+            {{ "degree": "...", "institution": "...", "year": "...", "score": "..." }}
+        ],
+        "experience": [ 
+            {{ "title": "...", "company": "...", "points": ["..."] }} 
+        ],
+        "projects": [ 
+            {{ "name": "...", "tech": "...", "description": "..." }} 
+        ],
+        "certifications": ["..."],
+        "achievements": ["..."]
     }}
     """
     response = model.generate_content(prompt)
-
     cleaned_text = response.text.replace("```json", "").replace("```", "").strip()
     return {"structured_data": cleaned_text}
 
@@ -166,3 +179,32 @@ async def evaluate_answer(data: AnswerEvaluation):
     return {"feedback": response.text.replace("*", "").strip()}
 
 
+class ATSRequest(BaseModel):
+    resume_data: str
+    job_description: str
+
+@app.post("/api/ats-check")
+async def ats_check(data: ATSRequest):
+    """
+    Industry-Grade ATS Analyzer:
+    Compares the resume against a job description to give a match score, missing keywords, and fixes.
+    """
+    prompt = f"""
+    You are an enterprise ATS (Applicant Tracking System) and Senior Technical Recruiter.
+    Analyze this resume data against the provided Job Description.
+
+    Resume Data: {data.resume_data}
+    Job Description: {data.job_description}
+
+    Provide a thorough breakdown using clean HTML/Markdown format:
+    1. **ATS Match Score**: A definitive percentage score (0-100%).
+    2. **Keyword Match Analysis**: Critical keywords found vs. missing keywords required by the job description.
+    3. **Formatting & Structure Critique**: Check if standard headings and required contact/skills info are present.
+    4. **Top 3 High-Impact Fixes**: Specific advice on how to rewrite or re-align bullet points for this specific role.
+    """
+    
+    try:
+        response = model.generate_content(prompt)
+        return {"ats_report": response.text.replace("*", "").strip()}
+    except Exception as e:
+        return {"ats_report": f"Error generating ATS report: {str(e)}"}
