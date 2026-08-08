@@ -1,4 +1,4 @@
-## SkillFolio.ai - The AI Career Copilot
+## SkillFolio - NextGen Career Copilot
 
 ## 🌟 The Problem
 Students often struggle to articulate their achievements. They have the skills, but their resumes look generic, and they lack an online presence.
