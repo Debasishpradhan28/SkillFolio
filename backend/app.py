@@ -6,6 +6,8 @@ import google.generativeai as genai
 from typing import Optional
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from fastapi import File, UploadFile
+import io
 
 # --- CONFIG ---
 app = FastAPI()
@@ -178,7 +180,27 @@ async def evaluate_answer(data: AnswerEvaluation):
     response = model.generate_content(prompt)
     return {"feedback": response.text.replace("*", "").strip()}
 
-
+@app.post("/api/parse-resume-file")
+async def parse_resume_file(file: UploadFile = File(...)):
+    """
+    Extracts raw text content from an uploaded resume file (.txt or .pdf)
+    """
+    content = await file.read()
+    extracted_text = ""
+    
+    try:
+        if file.filename.endswith(".pdf"):
+            import pypdf
+            reader = pypdf.PdfReader(io.BytesIO(content))
+            for page in reader.pages:
+                extracted_text += page.extract_text() + "\n"
+        else:
+            extracted_text = content.decode("utf-8", errors="ignore")
+            
+        return {"filename": file.filename, "text": extracted_text.strip()}
+    except Exception as e:
+        return {"filename": file.filename, "text": f"Error parsing file: {str(e)}"}
+    
 class ATSRequest(BaseModel):
     resume_data: str
     job_description: str

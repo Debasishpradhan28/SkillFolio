@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
     <title>SkillFolio - NextGen Career Copilot</title>
     
     <!-- Tailwind CSS with Custom Configuration -->
@@ -33,10 +34,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link
+        rel="canonical"
+        href="https://skillfolio-frontend.onrender.com/"
+    >
     
     <!-- PDF & QR Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <meta name="google-site-verification" content="pusFVoTod8dPz08zzW11QHVI_wpdMMzNlkheuyInZ7s" />
 </head>
 <body class="bg-slate-950 text-slate-100 flex flex-col lg:flex-row h-[100dvh] overflow-hidden antialiased selection:bg-blue-500 selection:text-white">
 
@@ -237,13 +243,30 @@
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Resume Source Box (Auto-loaded or Custom Editable) -->
-        <div class="bg-slate-900/60 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-800/80 flex flex-col">
-            <div class="flex justify-between items-center mb-2">
-                <label class="font-bold text-xs uppercase tracking-wider text-slate-300">1. Resume Content</label>
-                <button onclick="loadGeneratedResumeIntoATS()" class="text-[11px] text-blue-400 hover:underline">Sync Studio Resume</button>
-            </div>
-            <textarea id="ats-resume-input" class="w-full flex-1 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono h-36 focus:ring-2 focus:ring-blue-500 outline-none resize-none shadow-inner" placeholder="Your built resume will appear here automatically, or you can paste any custom resume text here..."></textarea>
+        <!-- 1. RESUME CONTENT CARD -->
+<div class="bg-slate-900/60 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-800/80 flex flex-col">
+    <div class="flex justify-between items-center mb-2">
+        <label class="font-bold text-xs uppercase tracking-wider text-slate-300">1. Resume Content Source</label>
+        <div class="flex items-center gap-3">
+            <!-- File Upload Trigger -->
+            <label class="text-[11px] text-indigo-400 hover:text-indigo-300 cursor-pointer flex items-center gap-1 font-medium">
+                <i class="fa-solid fa-upload"></i> Upload File
+                <input type="file" id="resume-file-input" accept=".pdf,.txt" class="hidden" onchange="handleResumeFileUpload(event)">
+            </label>
+            <span class="text-slate-700">|</span>
+            <!-- Sync Studio Resume Trigger -->
+            <button onclick="loadGeneratedResumeIntoATS()" class="text-[11px] text-blue-400 hover:text-blue-300 font-medium">Sync Studio Resume</button>
         </div>
+    </div>
+    
+    <!-- Textarea acting as the active editable preview container -->
+    <textarea id="ats-resume-input" class="w-full flex-1 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono h-36 focus:ring-2 focus:ring-blue-500 outline-none resize-none shadow-inner" placeholder="Sync your studio resume, upload a PDF/TXT file, or paste text directly here..."></textarea>
+    
+    <div class="flex justify-between items-center mt-2 px-1">
+        <span id="resume-source-badge" class="text-[10px] text-slate-500 italic font-mono">Status: Awaiting input</span>
+        <span class="text-[10px] text-slate-500">Fully Editable</span>
+    </div>
+</div>
 
         <!-- Target Job Description Input Box -->
         <div class="bg-slate-900/60 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-800/80 flex flex-col">

@@ -560,13 +560,13 @@ function setTheme(theme) {
     alert(`Theme set to: ${theme}`);
 }
 // Automatically load the studio resume into the ATS box when switching to the ATS page or clicking sync
+// 1. Sync previously built studio resume into the ATS box
 function loadGeneratedResumeIntoATS() {
     let dataToUse = generatedResumeData || dummyData;
     if (typeof dataToUse === 'string') {
         try { dataToUse = JSON.parse(dataToUse); } catch (e) { dataToUse = dummyData; }
     }
     
-    // Flatten JSON object into clean readable text for the ATS parser textarea
     const formattedText = `
 Name: ${dataToUse.personal_info?.name || ''}
 Role: ${dataToUse.personal_info?.role || ''}
@@ -588,6 +588,58 @@ Certifications: ${(dataToUse.certifications || []).join(', ')}
     const resumeInput = document.getElementById('ats-resume-input');
     if (resumeInput) {
         resumeInput.value = formattedText;
+        document.getElementById('resume-source-badge').innerText = "Status: ✓ Synced from Studio Resume";
+        document.getElementById('resume-source-badge').className = "text-[10px] text-emerald-400 font-mono";
+    }
+}
+
+// 2. Handle uploaded resume files (PDF / TXT)
+async function handleResumeFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const resumeInput = document.getElementById('ats-resume-input');
+    const badge = document.getElementById('resume-source-badge');
+    
+    resumeInput.value = "Parsing uploaded file content...";
+    badge.innerText = `Status: Processing ${file.name}...`;
+    badge.className = "text-[10px] text-amber-400 font-mono animate-pulse";
+
+    // If it's a plain text file, we can read it instantly on the client side
+    if (file.type === "text/plain" || file.name.endsWith(".txt")) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            resumeInput.value = e.target.result;
+            badge.innerText = `Status: ✓ Loaded text file (${file.name})`;
+            badge.className = "text-[10px] text-emerald-400 font-mono";
+        };
+        reader.readAsText(file);
+        return;
+    }
+
+    // For PDFs, send it to the backend parse endpoint
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const BACKEND_URL = "http://127.0.0.1:8000"; // Or your active backend url
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/parse-resume-file`, {
+            method: "POST",
+            body: formData
+        });
+        
+        if (!response.ok) throw new Error("Failed to parse file on server");
+
+        const data = await response.json();
+        resumeInput.value = data.text;
+        badge.innerText = `Status: ✓ Loaded PDF (${data.filename})`;
+        badge.className = "text-[10px] text-emerald-400 font-mono";
+    } catch (err) {
+        resumeInput.value = "";
+        badge.innerText = `Status: ❌ Error parsing file`;
+        badge.className = "text-[10px] text-red-400 font-mono";
+        alert("Error parsing file: " + err.message);
     }
 }
 
