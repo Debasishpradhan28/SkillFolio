@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillFolio - NextGen Career Copilot | Resume Builder,ATS,Portfolio</title>
+    <meta name="description" content="SkillFolio is an AI-powered career copilot for students and job seekers. Build better resumes, check ATS compatibility, identify skill gaps, create portfolios, and prepare for interviews.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" sizes="96x96" href="/skillfolio.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link
+        rel="canonical"
+        href="https://skillfolio-frontend.onrender.com/"
+    >
+    
+    <!-- PDF & QR Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <meta name="google-site-verification" content="pusFVoTod8dPz08zzW11QHVI_wpdMMzNlkheuyInZ7s" />
+</head>
+<body class="bg-slate-950 text-slate-100 flex flex-col lg:flex-row h-[100dvh] overflow-hidden antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- DESKTOP SIDEBAR NAVIGATION                 -->
+    <!-- ========================================== -->
+    <aside class="hidden lg:flex w-72 bg-slate-900/80 backdrop-blur-xl border-r border-slate-800/80 flex-col z-20 shadow-2xl">
+        <div class="p-6 border-b border-slate-800/60 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    SkillFolio<span class="text-blue-500"></span>
+                </h1>
+                <p class="text-xs text-slate-400 mt-1 font-medium flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Career Copilot v1.0
+                </p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 px-4 py-6 space-y-1.5">
+            <button onclick="showPage('builder')" id="desk-btn-builder" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl bg-blue-600 text-white font-semibold transition-all shadow-lg shadow-blue-500/20 text-left">
+                <i class="fa-solid fa-comments w-5 text-center text-lg"></i> 
+                <span>Chat Builder</span>
+            </button>
+            <button onclick="showPage('preview')" id="desk-btn-preview" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-medium transition-all text-left">
+                <i class="fa-solid fa-file-contract w-5 text-center text-lg"></i> 
+                <span>Smart Resume</span>
+            </button>
+            <button onclick="showPage('ats')" id="desk-btn-ats" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-medium transition-all text-left">
+                <i class="fa-solid fa-square-check w-5 text-center text-lg"></i> 
+                <span>ATS Matcher</span>
+            </button>
+            <button onclick="showPage('portfolio')" id="desk-btn-portfolio" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-medium transition-all text-left">
+                <i class="fa-solid fa-globe w-5 text-center text-lg"></i> 
+                <span>Instant Portfolio</span>
+            </button>
+            <button onclick="showPage('coach')" id="desk-btn-coach" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-medium transition-all text-left">
+                <i class="fa-solid fa-user-graduate w-5 text-center text-lg"></i> 
+                <span>Career Coach</span>
+            </button>
+        </nav>
+
+        <div class="p-4 mx-4 mb-4 rounded-xl bg-slate-950/50 border border-slate-800/80 flex items-center justify-between">
+            <div id="status-indicator" class="flex items-center gap-2.5 text-xs font-medium text-emerald-400">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span> 
+                <span>System Online</span>
+            </div>
+            <i class="fa-solid fa-shield-halved text-slate-600 text-xs"></i>
+        </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- MOBILE HEADER NAVIGATION                   -->
+    <!-- ========================================== -->
+    <header class="lg:hidden bg-slate-900/90 backdrop-blur-md border-b border-slate-800 text-white p-4 flex justify-between items-center shadow-md z-20">
+        <h1 class="font-black text-lg bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+            SkillFolio<span class="text-blue-500">.ai</span>
+        </h1>
+        <div class="flex items-center gap-2 bg-slate-950/60 px-3 py-1 rounded-full border border-slate-800 text-xs text-emerald-400 font-medium">
+            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Online
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- MAIN WORKSPACE CONTENT AREA                -->
+    <!-- ========================================== -->
+    <main class="flex-1 overflow-y-auto bg-slate-950 relative pb-32 lg:pb-0">
+
+        <!-- 1. CHAT BUILDER SECTION -->
+        <section id="page-builder" class="page-section h-full flex flex-col p-4 lg:p-8 max-w-4xl mx-auto">
+            <div class="mb-4 lg:mb-6">
+                <h2 class="text-2xl lg:text-3xl font-extrabold tracking-tight text-white">Tell me your story.</h2>
+                <p class="text-sm lg:text-base text-slate-400 mt-1">I'll ask questions to extract your hidden skills and format them into an executive resume.</p>
+            </div>
+            
+            <div id="chat-window" class="flex-1 bg-slate-900/50 backdrop-blur-md rounded-2xl shadow-xl border border-slate-800/80 p-4 lg:p-6 overflow-y-auto space-y-5 mb-4 min-h-[350px]">
+                <div class="flex gap-3 lg:gap-4 items-start">
+                    <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0 shadow-inner">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div class="bg-slate-800/80 border border-slate-700/50 text-slate-200 p-4 rounded-2xl rounded-tl-none text-sm max-w-[85%] shadow-sm leading-relaxed">
+                        Hi! I'm Gemini. Let's build your resume. First, what is your <b class="text-white">Full Name</b> and the <b class="text-white">Role</b> you are targeting?
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 bg-slate-900/60 p-2 rounded-2xl border border-slate-800 shadow-lg">
+                <input type="text" id="user-input" class="flex-1 bg-transparent border-0 px-4 py-3 focus:outline-none text-sm text-slate-100 placeholder-slate-500" placeholder="Type your answer here...">
+                <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center font-semibold text-sm active:scale-95">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <button onclick="finalizeResume()" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-4 rounded-xl font-bold shadow-xl shadow-blue-600/20 transition-all text-sm lg:text-base active:scale-[0.99] transform duration-150 flex items-center justify-center gap-2 mb-20 lg:mb-0">
+                <span>✨ Finish & Generate Resume</span>
+            </button>
+            <div class="h-24 lg:hidden w-full flex-shrink-0"></div>
+        </section>
+
+        <!-- 2. SMART RESUME & TEMPLATE PREVIEW SECTION -->
+<section id="page-preview" class="page-section hidden p-4 lg:p-8 h-full flex flex-col bg-slate-950 overflow-y-auto">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 flex-shrink-0">
+        <div>
+            <h2 class="text-2xl font-extrabold tracking-tight text-white">Resume Studio & AI Review</h2>
+            <p class="text-sm text-slate-400 mt-0.5">Review your AI-extracted content, roast feedback, and pick a professional template.</p>
+        </div>
+        <div class="flex gap-3 w-full lg:w-auto">
+            <button onclick="triggerRoastWorkflow()" class="flex-1 lg:flex-none bg-slate-900 hover:bg-red-500/10 border border-red-500/30 text-red-400 hover:text-red-300 px-4 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2">
+                <span>🔥 Step 1: Roast & Check</span>
+            </button>
+            <button onclick="downloadPDF()" class="flex-1 lg:flex-none bg-slate-100 hover:bg-white text-slate-900 px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-white/5 active:scale-95">
+                <i class="fa-solid fa-download text-xs"></i> <span>Download PDF</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- NEW DEDICATED ROAST & FEEDBACK CONTAINER (Shows before final render if needed) -->
+    <div id="roast-container" class="hidden mb-6 bg-slate-900/90 border border-red-500/30 p-6 rounded-2xl text-slate-200 text-sm space-y-4 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="font-extrabold text-red-400 flex items-center gap-2.5 text-base">
+                <i class="fa-solid fa-fire text-red-500 animate-bounce"></i> AI Hiring Manager Roast & Critique
+            </h4>
+            <button onclick="closeRoastBox()" class="text-slate-400 hover:text-white text-xs font-semibold bg-slate-800 px-2.5 py-1 rounded-lg">Close</button>
+        </div>
+        <div id="roast-content" class="leading-relaxed text-slate-300 space-y-2">
+            <!-- Roast text streams here -->
+        </div>
+        <div class="pt-2 flex justify-end">
+            <button onclick="proceedToTemplates()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-xl text-xs font-bold transition-all shadow-md">
+                Looks good! Proceed to Template Studio ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- Template Selectors -->
+    <div class="flex gap-4 mb-6 overflow-x-auto pb-4 flex-shrink-0 snap-x custom-scrollbar px-1">
+        <button onclick="changeTemplate('modern')" id="btn-modern" class="template-selector group relative w-32 flex-shrink-0 snap-start text-left">
+            <div class="h-36 bg-slate-900 border-2 border-slate-800 rounded-xl overflow-hidden transition-all group-hover:border-blue-500 ring-blue-500 shadow-md relative p-2">
+                <div class="h-1.5 w-full bg-blue-500 rounded-full mt-2"></div>
+                <div class="mt-3 space-y-1.5">
+                    <div class="h-2 w-3/4 bg-slate-700 rounded-full"></div>
+                    <div class="h-1.5 w-1/2 bg-slate-800 rounded-full"></div>
+                </div>
+                <div class="active-badge hidden absolute inset-0 bg-blue-600/20 border-2 border-blue-500 rounded-xl flex items-center justify-center backdrop-blur-[1px]">
+                    <div class="bg-blue-600 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg"><i class="fa-solid fa-check text-xs"></i></div>
+                </div>
+            </div>
+            <p class="text-xs font-bold text-center mt-2 text-slate-300">Modern Tech</p>
+        </button>
+        <button onclick="changeTemplate('executive')" id="btn-executive" class="template-selector group relative w-32 flex-shrink-0 snap-start text-left">
+    <div class="h-36 bg-slate-900 border-2 border-slate-800 rounded-xl overflow-hidden transition-all group-hover:border-blue-500 relative p-2 text-center">
+        <div class="pt-2 space-y-1.5">
+            <div class="h-2 w-3/4 bg-slate-300 mx-auto rounded-full"></div>
+            <div class="border-b border-slate-800 pb-1 mb-1"></div>
+            <div class="h-1.5 w-full bg-slate-800 rounded-full"></div>
+        </div>
+        <div class="active-badge hidden absolute inset-0 bg-blue-600/20 border-2 border-blue-500 rounded-xl flex items-center justify-center backdrop-blur-[1px]">
+            <div class="bg-blue-600 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg"><i class="fa-solid fa-check text-xs"></i></div>
+        </div>
+    </div>
+    <p class="text-xs font-bold text-center mt-2 text-slate-300">Executive</p>
+</button>
+        <button onclick="changeTemplate('creative')" id="btn-creative" class="template-selector group relative w-32 flex-shrink-0 snap-start text-left">
+            <div class="h-36 bg-slate-900 border-2 border-slate-800 rounded-xl overflow-hidden transition-all group-hover:border-blue-500 relative flex">
+                <div class="w-1/3 bg-slate-800 h-full p-1.5"></div>
+                <div class="w-2/3 p-2 space-y-2">
+                    <div class="h-2 w-full bg-slate-700 rounded-full"></div>
+                </div>
+                <div class="active-badge hidden absolute inset-0 bg-blue-600/20 border-2 border-blue-500 rounded-xl flex items-center justify-center backdrop-blur-[1px]">
+                    <div class="bg-blue-600 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg"><i class="fa-solid fa-check text-xs"></i></div>
+                </div>
+            </div>
+            <p class="text-xs font-bold text-center mt-2 text-slate-300">Creative</p>
+        </button>
+    </div>
+
+    <!-- Live Document Viewer Container -->
+    <div class="flex-1 bg-slate-900/40 rounded-2xl border border-slate-800/80 overflow-hidden relative flex flex-col justify-center items-center shadow-inner min-h-[600px]">
+        <div class="overflow-auto w-full h-full custom-scrollbar flex justify-center p-4 lg:p-10">
+            <div id="resume-preview" class="bg-white text-slate-900 shadow-2xl origin-top transition-transform duration-300 ease-out rounded-sm" 
+                 style="width: 794px; min-height: 1123px; transform: scale(0.4); margin-bottom: -500px;"> 
+                 <div class="h-full flex flex-col items-center justify-center text-slate-400 gap-4">
+                    <i class="fa-solid fa-file-lines text-6xl opacity-30"></i>
+                    <p class="text-lg font-medium opacity-60">Complete the chat builder to generate your real resume...</p>
+                 </div>
+            </div>
+        </div>
+        <div class="absolute bottom-4 bg-slate-900/90 backdrop-blur-md border border-slate-700/50 text-slate-300 px-3.5 py-1 rounded-full text-xs font-mono shadow-lg flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> A4 Professional Output Mode
+        </div>
+    </div>
+</section>
+<!-- 5. REAL INDUSTRY ATS CHECKER SECTION -->
+<section id="page-ats" class="page-section hidden p-4 lg:p-8 max-w-4xl mx-auto h-full overflow-y-auto">
+    <div class="mb-6">
+        <h2 class="text-xl lg:text-2xl font-extrabold tracking-tight text-white">Industry ATS Matcher</h2>
+        <p class="text-xs lg:text-sm text-slate-400 mt-0.5">Simulate enterprise applicant tracking systems against target job descriptions.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Resume Source Box (Auto-loaded or Custom Editable) -->
+        <!-- 1. RESUME CONTENT CARD -->
+<div class="bg-slate-900/60 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-800/80 flex flex-col">
+    <div class="flex justify-between items-center mb-2">
+        <label class="font-bold text-xs uppercase tracking-wider text-slate-300">1. Resume Content Source</label>
+        <div class="flex items-center gap-3">
+            <!-- File Upload Trigger -->
+            <label class="text-[11px] text-indigo-400 hover:text-indigo-300 cursor-pointer flex items-center gap-1 font-medium">
+                <i class="fa-solid fa-upload"></i> Upload File
+                <input type="file" id="resume-file-input" accept=".pdf,.txt" class="hidden" onchange="handleResumeFileUpload(event)">
+            </label>
+            <span class="text-slate-700">|</span>
+            <!-- Sync Studio Resume Trigger -->
+            <button onclick="loadGeneratedResumeIntoATS()" class="text-[11px] text-blue-400 hover:text-blue-300 font-medium">Sync Studio Resume</button>
+        </div>
+    </div>
+    
+    <!-- Textarea acting as the active editable preview container -->
+    <textarea id="ats-resume-input" class="w-full flex-1 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono h-36 focus:ring-2 focus:ring-blue-500 outline-none resize-none shadow-inner" placeholder="Sync your studio resume, upload a PDF/TXT file, or paste text directly here..."></textarea>
+    
+    <div class="flex justify-between items-center mt-2 px-1">
+        <span id="resume-source-badge" class="text-[10px] text-slate-500 italic font-mono">Status: Awaiting input</span>
+        <span class="text-[10px] text-slate-500">Fully Editable</span>
+    </div>
+</div>
+
+        <!-- Target Job Description Input Box -->
+        <div class="bg-slate-900/60 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-800/80 flex flex-col">
+            <label class="block font-bold text-xs uppercase tracking-wider text-slate-300 mb-2">2. Target Job Description</label>
+            <textarea id="ats-job-description" class="w-full flex-1 bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-500 h-36 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-inner resize-none" placeholder="Paste full job description requirements here..."></textarea>
+        </div>
+    </div>
+
+    <button onclick="runATSCheck()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-600/25 transition-all text-sm flex items-center justify-center gap-2 active:scale-[0.99]">
+        <i class="fa-solid fa-microchip"></i> <span>Run Industry ATS Scan</span>
+    </button>
+
+    <!-- ATS Report Output Container -->
+    <div id="ats-results-container" class="hidden mt-6 bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-xl mb-20 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-blue-400"></i> Enterprise ATS Evaluation Report
+            </h3>
+            <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full font-mono">Simulated Parser v2.4</span>
+        </div>
+        <div id="ats-content" class="prose prose-invert prose-sm text-slate-300 leading-relaxed space-y-2"></div>
+    </div>
+</section>
+
+        <!-- 3. INSTANT PORTFOLIO SECTION -->
+        <section id="page-portfolio" class="page-section hidden p-4 lg:p-8 h-full flex flex-col">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl lg:text-2xl font-extrabold tracking-tight text-white">Instant Portfolio</h2>
+                    <p class="text-xs lg:text-sm text-slate-400 mt-0.5">Turn your dynamic resume structure into an interactive hosted website.</p>
+                </div>
+                <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+                    <div class="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+                        <button onclick="setTheme('coder')" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-all">👨‍💻 Code</button>
+                        <button onclick="setTheme('designer')" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-all">🎨 Design</button>
+                    </div>
+                    <button onclick="generateWebsite()" class="flex-1 lg:flex-none bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-xl font-bold transition-all text-sm shadow-lg shadow-purple-600/25 flex items-center justify-center gap-2">
+                        <span>🚀 Generate Site</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 relative min-h-[500px] shadow-2xl">
+                <iframe id="portfolio-frame" class="w-full h-full bg-white"></iframe>
+                <div id="portfolio-loader" class="hidden absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="mt-4 font-semibold text-purple-300 text-sm tracking-wide">Synthesizing & coding your website...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CAREER COACH & MOCK INTERVIEW SECTION -->
+        <section id="page-coach" class="page-section hidden p-4 lg:p-8 max-w-4xl mx-auto h-full overflow-y-auto">
+            <h2 class="text-xl lg:text-2xl font-extrabold tracking-tight text-white mb-6">Career Coach & Mock Interview</h2>
+            
+            <div class="bg-slate-900/60 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-slate-800/80 mb-6">
+                <label class="block font-bold text-xs uppercase tracking-wider text-slate-300 mb-2">Target Job Description</label>
+                <textarea id="job-description" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-slate-100 placeholder-slate-400 h-28 lg:h-36 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all shadow-inner" placeholder="Paste target company job description details here..."></textarea>
+                <div class="flex flex-col lg:flex-row gap-3 mt-4">
+                    <button onclick="analyzeGap()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-xl font-bold transition-all text-sm shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-xs"></i> <span>Analyze Skill Gap</span>
+                    </button>
+                    <button onclick="startMockInterview()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 rounded-xl font-bold transition-all text-sm shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-microphone-lines text-xs"></i> <span>Start Mock Interview</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="coach-results" class="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl hidden mb-20 shadow-xl">
+                <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-blue-400"></i> Analysis Results:</h3>
+                <div id="coach-content" class="prose prose-invert prose-sm text-slate-200 leading-relaxed"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MOBILE BOTTOM NAVBAR NAVIGATION            -->
+    <!-- ========================================== -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 flex justify-around items-center p-2 z-50 pb-safe shadow-2xl">
+        <button onclick="showPage('builder')" id="mob-btn-builder" class="nav-btn-mobile flex flex-col items-center p-2 text-blue-500 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-xl mb-0.5">
+                <i class="fa-solid fa-comments text-base"></i>
+            </div>
+            <span class="text-[10px] font-bold">Chat</span>
+        </button>
+
+        <button onclick="showPage('preview')" id="mob-btn-preview" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-xl mb-0.5">
+                <i class="fa-solid fa-file-contract text-base"></i>
+            </div>
+            <span class="text-[10px] font-medium">Resume</span>
+        </button>
+
+        <button onclick="showPage('portfolio')" id="mob-btn-portfolio" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-xl mb-0.5">
+                <i class="fa-solid fa-globe text-base"></i>
+            </div>
+            <span class="text-[10px] font-medium">Web</span>
+        </button>
+
+        <button onclick="showPage('coach')" id="mob-btn-coach" class="nav-btn-mobile flex flex-col items-center p-2 text-slate-400 transition-colors">
+            <div class="w-10 h-8 flex items-center justify-center rounded-xl mb-0.5">
+                <i class="fa-solid fa-user-graduate text-base"></i>
+            </div>
+            <span class="text-[10px] font-medium">Coach</span>
+        </button>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT LOGIC CONTROLLER HOOKS              -->
+    <!-- ========================================== -->
+    <script src="script.js"></script>
+
+    <script>
+        const originalShowPage = window.showPage || function(){};
+        
+        window.showPage = function(pageId) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            
+            // Show active page section
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if(targetPage) targetPage.classList.remove('hidden');
+
+            // Reset desktop navbar active states
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/20');
+                el.classList.add('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-800/60');
+            });
+            
+            const deskBtn = document.getElementById(`desk-btn-${pageId}`);
+            if(deskBtn) {
+                deskBtn.classList.remove('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-800/60');
+                deskBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/20');
+            }
+
+            // Reset mobile navbar active states
+            document.querySelectorAll('.nav-btn-mobile').forEach(el => {
+                el.classList.remove('text-blue-500');
+                el.classList.add('text-slate-400');
+                const span = el.querySelector('span');
+                if(span) {
+                    span.classList.remove('font-bold');
+                    span.classList.add('font-medium');
+                }
+            });
+            
+            const mobBtn = document.getElementById(`mob-btn-${pageId}`);
+            if(mobBtn) {
+                mobBtn.classList.remove('text-slate-400');
+                mobBtn.classList.add('text-blue-500');
+                const span = mobBtn.querySelector('span');
+                if(span) {
+                    span.classList.remove('font-medium');
+                    span.classList.add('font-bold');
+                }
+            }
+        };
+    </script>
+</body>
+</html>
