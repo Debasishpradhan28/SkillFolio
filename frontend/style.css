@@ -1,7 +1,23 @@
-body {
-    font-family: 'Inter', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
 }
 
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #fafaf9;
+    color: #1c1917;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
 
 .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
