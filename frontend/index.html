@@ -1,297 +1,214 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillFolio — NextGen Career Copilot | Resume,ATS,Portfolio</title>
+    <title>SkillFolio — NextGen Career Copilot | Resume, ATS, Portfolio</title>
     <meta name="description" content="SkillFolio is an AI-powered career copilot for students and job seekers. Build better resumes, check ATS compatibility, identify skill gaps, create portfolios, and prepare for interviews.">
     <meta name="robots" content="index, follow">
-    <link rel="icon" type="image/png" sizes="96x96" href="/skillfolio.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="skillfolio.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "SkillFolio",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "url": "https://skillfolio-frontend.onrender.com/",
-  "description": "AI-powered career copilot for students and job seekers with resume analysis, ATS matching, skill gap analysis, portfolio building and interview preparation."
-}
-</script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fafaf9; color: #1c1917; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-    </style>
-    <link
-        rel="canonical"
-        href="https://skillfolio-frontend.onrender.com/"
-    >
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SkillFolio",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://skillfolio-frontend.onrender.com/",
+      "description": "AI-powered career copilot for students and job seekers with resume analysis, ATS matching, skill gap analysis, portfolio building and interview preparation."
+    }
+    </script>
+    <link rel="canonical" href="https://skillfolio-frontend.onrender.com/">
     <meta name="google-site-verification" content="pusFVoTod8dPz08zzW11QHVI_wpdMMzNlkheuyInZ7s" />
-
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fafaf9; color: #1c1917; margin: 0; padding: 0; box-sizing: border-box; }
+        .nav-container { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; backdrop-filter: blur(12px); background-color: rgba(250, 250, 249, 0.85); z-index: 50; border-bottom: 1px solid rgba(231, 229, 228, 0.6); box-sizing: border-box; }
+        .nav-links { display: flex; gap: 2rem; font-size: 0.875rem; font-weight: 500; color: #57534e; }
+        .nav-links a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        .nav-links a:hover { color: #1c1917; }
+        .btn-purple { background-color: #9333ea; color: #fafaf9; padding: 0.5rem 1.25rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; transition: background-color 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .btn-purple:hover { background-color: #7e22ce; }
+        .main-wrapper { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+        .hero-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 4rem; }
+        .badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.875rem; border-radius: 9999px; background-color: #f3e8ff; color: #7e22ce; border: 1px solid rgba(216, 180, 254, 0.6); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; width: fit-content; }
+        .hero-title { font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; max-width: 60rem; margin: 0 0 1.5rem 0; }
+        .hero-desc { font-size: 1.125rem; color: #57534e; max-width: 40rem; font-weight: 300; line-height: 1.6; margin-bottom: 2.5rem; }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-dark { background-color: #1c1917; color: #fafaf9; padding: 1rem 2rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background-color 0.2s; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: inline-block; text-align: center; }
+        .btn-dark:hover { background-color: #292524; }
+        .btn-outline { border: 1px solid #d6d3d1; color: #1c1917; padding: 1rem 2rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background-color 0.2s; display: inline-block; text-align: center; }
+        .btn-outline:hover { background-color: #f5f5f4; }
+        .section-container { padding: 5rem 0; border-top: 1px solid #e7e5e4; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center; }
+        .card { background-color: #ffffff; padding: 2rem; border-radius: 1.5rem; border: 1px solid rgba(231, 229, 228, 0.8); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; transition: box-shadow 0.3s; }
+        .card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); }
+        .card-number { width: 3rem; height: 3rem; background-color: #f3e8ff; color: #9333ea; border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; margin-bottom: 1.5rem; }
+        .footer-container { padding: 4rem 0; border-top: 1px solid #e7e5e4; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        @media(max-width: 768px) {
+            .nav-links { display: none; }
+            .footer-container { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
-<body class="selection:bg-purple-600 selection:text-stone-50 antialiased">
+<body style="background-color: #fafaf9; color: #1c1917;">
 
     <!-- Navigation -->
-    <nav class="fixed w-full top-0 px-6 py-4 flex justify-between items-center backdrop-blur-md bg-stone-50/80 z-50 border-b border-stone-200/60 shadow-xs">
-        <div class="flex items-center gap-3">
-            <img src="skillfolio.png" alt="Logo" class="w-8 h-8 rounded-lg object-contain shadow-sm">
-            <span class="font-bold tracking-tighter text-base">SKILLFOLIO</span>
+    <nav class="nav-container">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="skillfolio.png" alt="Logo" style="width: 2rem; height: 2rem; border-radius: 9999px; object-fit: cover; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+            <span style="font-weight: 700; letter-spacing: -0.05em; font-size: 1rem;">SKILLFOLIO</span>
         </div>
-        <div class="hidden md:flex gap-8 text-sm font-medium text-stone-600">
-            <a href="#features" class="hover:text-stone-900 transition-colors">Features</a>
-            <a href="#playground" class="hover:text-stone-900 transition-colors">Instant Playground</a>
-            <a href="#coach" class="hover:text-stone-900 transition-colors">AI Coach</a>
-            <a href="#faq" class="hover:text-stone-900 transition-colors">FAQ</a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#playground">Instant Playground</a>
+            <a href="#coach">AI Coach</a>
+            <a href="#faq">FAQ</a>
         </div>
-        <a href="main.html" class="px-5 py-2 bg-purple-600 text-stone-50 rounded-full hover:bg-purple-700 transition-all text-xs font-semibold tracking-wide uppercase shadow-sm">
-            Launch Main Site &rarr;
-        </a>
+        <a href="main.html" class="btn-purple">Launch Main Site &rarr;</a>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-6">
+    <main class="main-wrapper">
         
         <!-- Hero Section -->
-        <section class="min-h-screen flex flex-col justify-center pt-28 pb-16">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200/60 text-xs font-semibold tracking-wider uppercase mb-6 w-fit shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span> Zero Friction • No Signup Required
+        <section class="hero-section">
+            <div class="badge">
+                <span style="width: 0.5rem; height: 0.5rem; border-radius: 9999px; background-color: #9333ea; display: inline-block;"></span> Zero Friction • No Signup Required
             </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] max-w-5xl">
-                Code your career <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">with instant AI power.</span>
+            <h1 class="hero-title">
+                Code your career <br/><span style="background: linear-gradient(to right, #9333ea, #4f46e5); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">with instant AI power.</span>
             </h1>
-            <p class="text-lg md:text-xl mt-8 text-stone-600 max-w-2xl font-light leading-relaxed">
+            <p class="hero-desc">
                 Transform casual project logs into ATS-optimized Harvard resumes, deploy live portfolio sites instantly, and stress-test your skills—all completely anonymously with zero signups or password walls.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 mt-10 items-stretch sm:items-center">
-                <a href="#playground" class="px-8 py-4 bg-stone-900 text-stone-50 rounded-full hover:bg-stone-800 transition-all text-sm font-semibold tracking-wide text-center shadow-lg shadow-stone-900/10">
-                    Try Live Playground &rarr;
-                </a>
-                <a href="main.html" class="px-8 py-4 border border-stone-300 rounded-full hover:bg-stone-100 transition-all text-sm font-semibold tracking-wide text-center">
-                    Enter Main Platform
-                </a>
+            <div class="hero-buttons">
+                <a href="#playground" class="btn-dark">Try Live Playground &rarr;</a>
+                <a href="main.html" class="btn-outline">Enter Main Platform</a>
             </div>
         </section>
 
-        <section id="playground" class="py-28 border-t border-stone-200">
-            <div class="mb-12 max-w-3xl">
-                <div class="inline-block text-xs font-bold uppercase tracking-widest text-purple-600 mb-2">Live Engagement Hub</div>
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Test the Alchemist Right Now.</h2>
-                <p class="text-stone-600 font-light mt-3">Type any casual project sentence below. Watch our AI instantly turn it into an enterprise-grade, ATS-compliant resume bullet point—no account needed.</p>
+        <!-- Live Playground Section -->
+        <section id="playground" class="section-container">
+            <div style="max-width: 45rem; margin-bottom: 3rem;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9333ea; margin-bottom: 0.5rem;">Live Engagement Hub</div>
+                <h2 style="font-size: clamp(2rem, 3vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.75rem 0;">Test the Alchemist Right Now.</h2>
+                <p style="color: #57534e; font-weight: 300; line-height: 1.6; margin: 0;">Type any casual project sentence below. Watch our AI instantly turn it into an enterprise-grade, ATS-compliant resume bullet point—no account needed.</p>
             </div>
 
-            <div class="bg-white p-6 md:p-10 rounded-3xl border border-stone-200 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <label for="user-input" class="block text-xs font-bold uppercase tracking-wider text-stone-500">Your Casual Project Description</label>
-                    <textarea id="user-input" rows="3" class="w-full bg-stone-50 border border-stone-200 rounded-2xl p-4 text-stone-800 focus:outline-none focus:border-purple-600 transition-all resize-none text-sm font-medium" placeholder="e.g., I made a weather app using React and an API..."></textarea>
-                    <button onclick="simulateAI()" class="w-full py-3.5 bg-purple-600 text-stone-50 rounded-xl font-semibold text-sm hover:bg-purple-700 transition-all shadow-md shadow-purple-600/20 cursor-pointer">
+            <div style="background-color: #ffffff; padding: 2.5rem; border-radius: 1.5rem; border: 1px solid #e7e5e4; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: center;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <label for="user-input" style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #78716c;">Your Casual Project Description</label>
+                    <textarea id="user-input" rows="3" style="width: 100%; background-color: #fafaf9; border: 1px solid #e7e5e4; border-radius: 1rem; padding: 1rem; color: #1c1917; font-family: inherit; font-size: 0.875rem; outline: none; resize: none; box-sizing: border-box;" placeholder="e.g., I made a weather app using React and an API..."></textarea>
+                    <button onclick="simulateAI()" style="width: 100%; padding: 0.875rem; background-color: #9333ea; color: #fafaf9; border: none; border-radius: 0.75rem; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: background-color 0.2s;">
                         Transform into Executive Bullet ✨
                     </button>
                 </div>
-                <div class="bg-stone-900 text-stone-50 p-6 md:p-8 rounded-2xl relative min-h-[160px] flex flex-col justify-between">
+                <div style="background-color: #1c1917; color: #fafaf9; padding: 2rem; border-radius: 1rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400 block mb-2">AI Output Result</span>
-                        <p id="ai-output" class="text-sm text-stone-300 font-mono italic leading-relaxed">
+                        <span style="font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #c084fc; display: block; margin-bottom: 0.75rem;">AI Output Result</span>
+                        <p id="ai-output" style="font-size: 0.875rem; color: #d6d3d1; font-family: monospace; font-style: italic; line-height: 1.5; margin: 0;">
                             "Awaiting your input above. Type a quick sentence to see the magic happen instantly..."
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-stone-800 flex justify-between items-center text-xs text-stone-400">
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #292524; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #78716c;">
                         <span>Status: Ready & Active</span>
-                        <span class="text-purple-400 font-semibold">Instant Execution</span>
+                        <span style="color: #c084fc; font-weight: 600;">Instant Execution</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="features" class="py-28 border-t border-stone-200">
-            <div class="mb-16">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-3">System Capabilities</h2>
-                <p class="text-3xl md:text-4xl font-bold tracking-tight">Engineered for absolute career dominance.</p>
+        <!-- Core Features Grid -->
+        <section id="features" class="section-container">
+            <div style="margin-bottom: 3rem;">
+                <h2 style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #78716c; margin-bottom: 0.5rem;">System Capabilities</h2>
+                <p style="font-size: clamp(2rem, 3vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Engineered for absolute career dominance.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Feature 1 -->
-                <div class="bg-white p-8 rounded-3xl border border-stone-200/80 flex flex-col justify-between hover:shadow-xl hover:shadow-stone-200/40 transition-all duration-300">
+            <div class="grid-3">
+                <div class="card">
                     <div>
-                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center font-bold text-lg mb-6">01</div>
-                        <h3 class="text-xl font-bold tracking-tight mb-3">ATS-Optimized Resumes</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed font-light">
-                            Craft flawless Harvard and Creative style documents optimized precisely to parse through strict Applicant Tracking Systems without breaking format.
-                        </p>
+                        <div class="card-number">01</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.75rem 0;">ATS-Optimized Resumes</h3>
+                        <p style="color: #57534e; font-size: 0.875rem; line-height: 1.6; font-weight: 300; margin: 0;">Craft flawless Harvard and Creative style documents optimized precisely to parse through strict Applicant Tracking Systems without breaking format.</p>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider">
-                        High Parsing Accuracy
-                    </div>
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f5f5f4; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #78716c;">High Parsing Accuracy</div>
                 </div>
 
-                <!-- Feature 2 -->
-                <div class="bg-white p-8 rounded-3xl border border-stone-200/80 flex flex-col justify-between hover:shadow-xl hover:shadow-stone-200/40 transition-all duration-300">
+                <div class="card">
                     <div>
-                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center font-bold text-lg mb-6">02</div>
-                        <h3 class="text-xl font-bold tracking-tight mb-3">Instant Personal Websites</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed font-light">
-                            Deploy a full-fledged responsive portfolio website in seconds. Choose between a hacker terminal aesthetic or a clean designer studio layout.
-                        </p>
+                        <div class="card-number">02</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.75rem 0;">Instant Personal Websites</h3>
+                        <p style="color: #57534e; font-size: 0.875rem; line-height: 1.6; font-weight: 300; margin: 0;">Deploy a full-fledged responsive portfolio website in seconds. Choose between a hacker terminal aesthetic or a clean designer studio layout.</p>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider">
-                        One-Click Deployment
-                    </div>
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f5f5f4; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #78716c;">One-Click Deployment</div>
                 </div>
 
-                <!-- Feature 3 -->
-                <div class="bg-white p-8 rounded-3xl border border-stone-200/80 flex flex-col justify-between hover:shadow-xl hover:shadow-stone-200/40 transition-all duration-300">
+                <div class="card">
                     <div>
-                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center font-bold text-lg mb-6">03</div>
-                        <h3 class="text-xl font-bold tracking-tight mb-3">Real-Time Career Coaching</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed font-light">
-                            Run simulated mock interviews with active voice synthesis, gap analysis against job descriptions, and a hilarious Gordon Ramsay-style Roast Mode.
-                        </p>
+                        <div class="card-number">03</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.75rem 0;">Real-Time Career Coaching</h3>
+                        <p style="color: #57534e; font-size: 0.875rem; line-height: 1.6; font-weight: 300; margin: 0;">Run simulated mock interviews with active voice synthesis, gap analysis against job descriptions, and a hilarious Gordon Ramsay-style Roast Mode.</p>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider">
-                        Active Voice AI
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Deep Dive: The Alchemist & Smart Resume Engine -->
-        <section id="alchemist" class="py-28 border-t border-stone-200 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">Intelligent Data Extraction</span>
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-6">The Experience Alchemist</h2>
-                <p class="text-stone-600 font-light leading-relaxed mb-8">
-                    Stop filling out repetitive, tedious form fields. Simply chat naturally with our AI agent to compile your work history seamlessly. 
-                </p>
-                
-                <div class="space-y-6">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-stone-900 text-stone-50 flex items-center justify-center font-bold text-xs shrink-0 mt-1">In</div>
-                        <div>
-                            <h4 class="font-semibold text-sm">Raw Input Example</h4>
-                            <p class="text-stone-500 text-sm mt-1">"I built a weather app using React."</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-purple-600 text-stone-50 flex items-center justify-center font-bold text-xs shrink-0 mt-1">Out</div>
-                        <div>
-                            <h4 class="font-semibold text-sm">AI Transformed Bullet</h4>
-                            <p class="text-stone-800 text-sm font-medium mt-1 bg-white p-3 rounded-xl border border-stone-200 shadow-sm">
-                                "Architected a real-time meteorological dashboard using React.js, reducing API latency by 40%."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-stone-900 text-stone-50 p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-2xl">
-                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-purple-900 rounded-full blur-2xl opacity-40"></div>
-                <h3 class="text-xl font-bold mb-4 tracking-tight">Smart Resume & Portfolio Engine</h3>
-                <ul class="space-y-4 text-stone-300 text-sm font-light">
-                    <li class="flex items-start gap-3">
-                        <span class="text-purple-400 font-bold">&#10003;</span> 
-                        <span><strong>Multi-Template Support:</strong> Choose between Harvard Professional, Modern Tech, or Creative Sidebar templates.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-purple-400 font-bold">&#10003;</span> 
-                        <span><strong>Smart PDF:</strong> Auto-embeds a secure QR code linking directly back to your portfolio website.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-purple-400 font-bold">&#10003;</span> 
-                        <span><strong>Roast Mode:</strong> Get brutal, honest feedback from an AI Hiring Manager (Gordon Ramsay style).</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Deep Dive: AI Career Coach -->
-        <section id="coach" class="py-28 border-t border-stone-200 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="order-2 lg:order-1 bg-white p-8 md:p-12 rounded-3xl border border-stone-200 shadow-xl">
-                <h3 class="text-xl font-bold mb-6 tracking-tight">Interactive Assessment Modules</h3>
-                <div class="space-y-6">
-                    <div class="p-4 bg-stone-50 rounded-2xl border border-stone-200">
-                        <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">Gap Analysis Module</span>
-                        <p class="text-sm font-medium text-stone-800 mt-1">Paste a Job Description, and the AI instantly tells you what core skills you are missing.</p>
-                    </div>
-                    <div class="p-4 bg-stone-50 rounded-2xl border border-stone-200">
-                        <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">Voice Mock Interview</span>
-                        <p class="text-sm font-medium text-stone-800 mt-1">The browser speaks a technical question aloud, listens to your voice response, and grades you instantly.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="order-1 lg:order-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">Advanced Skill Evaluation</span>
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-6">AI Career Coach</h2>
-                <p class="text-stone-600 font-light leading-relaxed mb-6">
-                    Bridge the gap between preparation and hiring. Practice under realistic pressure conditions with our state-of-the-art interactive modules.
-                </p>
-                <a href="main.html" class="inline-flex items-center gap-2 text-sm font-bold tracking-tight underline underline-offset-4 hover:text-stone-600">
-                    Test out the interview simulator &rarr;
-                </a>
-            </div>
-        </section>
-
-        <!-- Frequently Asked Questions (FAQ) -->
-        <section id="faq" class="py-28 border-t border-stone-200">
-            <div class="mb-16 max-w-2xl">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-3">Support & Guidance</h2>
-                <p class="text-3xl md:text-4xl font-bold tracking-tight">Frequently Asked Questions</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-                <div class="bg-white p-8 rounded-3xl border border-stone-200">
-                    <h3 class="font-bold text-lg mb-2">Do I need to sign up or create an account?</h3>
-                    <p class="text-stone-600 text-sm font-light leading-relaxed">No. All core features including resume generation and the live alchemist playground work completely anonymously without accounts or login walls.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl border border-stone-200">
-                    <h3 class="font-bold text-lg mb-2">How does the Resume QR code work?</h3>
-                    <p class="text-stone-600 text-sm font-light leading-relaxed">When you export your resume to PDF, our generator auto-compiles a tracking QR code pointing directly to your deployed portfolio web address.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl border border-stone-200">
-                    <h3 class="font-bold text-lg mb-2">Are the resumes truly ATS-compliant?</h3>
-                    <p class="text-stone-600 text-sm font-light leading-relaxed">Yes. Our Harvard and Tech layouts strictly avoid multi-column tables, hidden text layers, or unsupported graphical elements that confuse parsing bots.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl border border-stone-200">
-                    <h3 class="font-bold text-lg mb-2">What is Roast Mode?</h3>
-                    <p class="text-stone-600 text-sm font-light leading-relaxed">Roast Mode passes your resume data through an aggressive persona model designed to mimic top-tier engineering managers.</p>
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f5f5f4; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #78716c;">Active Voice AI</div>
                 </div>
             </div>
         </section>
 
-        <!-- Developer Details & Social Media Footer -->
-        <footer class="py-20 border-t border-stone-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <div class="flex items-start gap-4">
-                <img src="skillfolio.png" alt="Logo" class="w-10 h-10 rounded-xl object-contain shadow-sm mt-1">
+        <!-- Frequently Asked Questions -->
+        <section id="faq" class="section-container">
+            <div style="margin-bottom: 3rem; max-width: 40rem;">
+                <h2 style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #78716c; margin-bottom: 0.5rem;">Support & Guidance</h2>
+                <p style="font-size: clamp(2rem, 3vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin: 0;">Frequently Asked Questions</p>
+            </div>
+
+            <div class="grid-2">
+                <div style="background-color: #ffffff; padding: 2rem; border-radius: 1.5rem; border: 1px solid #e7e5e4;">
+                    <h3 style="font-weight: 700; font-size: 1.125rem; margin: 0 0 0.5rem 0;">Do I need to sign up or create an account?</h3>
+                    <p style="color: #57534e; font-size: 0.875rem; font-weight: 300; line-height: 1.6; margin: 0;">No. All core features including resume generation and the live alchemist playground work completely anonymously without accounts or login walls.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 2rem; border-radius: 1.5rem; border: 1px solid #e7e5e4;">
+                    <h3 style="font-weight: 700; font-size: 1.125rem; margin: 0 0 0.5rem 0;">How does the Resume QR code work?</h3>
+                    <p style="color: #57534e; font-size: 0.875rem; font-weight: 300; line-height: 1.6; margin: 0;">When you export your resume to PDF, our generator auto-compiles a tracking QR code pointing directly to your deployed portfolio web address.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 2rem; border-radius: 1.5rem; border: 1px solid #e7e5e4;">
+                    <h3 style="font-weight: 700; font-size: 1.125rem; margin: 0 0 0.5rem 0;">Are the resumes truly ATS-compliant?</h3>
+                    <p style="color: #57534e; font-size: 0.875rem; font-weight: 300; line-height: 1.6; margin: 0;">Yes. Our Harvard and Tech layouts strictly avoid multi-column tables, hidden text layers, or unsupported graphical elements that confuse parsing bots.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 2rem; border-radius: 1.5rem; border: 1px solid #e7e5e4;">
+                    <h3 style="font-weight: 700; font-size: 1.125rem; margin: 0 0 0.5rem 0;">What is Roast Mode?</h3>
+                    <p style="color: #57534e; font-size: 0.875rem; font-weight: 300; line-height: 1.6; margin: 0;">Roast Mode passes your resume data through an aggressive persona model designed to mimic top-tier engineering managers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-container">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                <img src="skillfolio.png" alt="Logo" style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; object-fit: cover; margin-top: 0.25rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
                 <div>
-                    <span class="font-bold text-base tracking-tighter text-stone-900 block">Debasish Pradhan</span>
-                    <p class="text-stone-500 text-xs mt-0.5">Full-stack systems developer and AI platform architect.</p>
-                    <p class="text-stone-400 text-xs mt-2 font-mono">VSSUT Burla • Computer Science & Engineering</p>
+                    <span style="font-weight: 700; font-size: 1rem; letter-spacing: -0.03em; color: #1c1917; display: block;">Debasish Pradhan</span>
+                    <p style="color: #78716c; font-size: 0.75rem; margin: 0.25rem 0 0 0;">Full-stack systems developer and AI platform architect.</p>
+                    <p style="color: #a8a29e; font-size: 0.75rem; margin: 0.35rem 0 0 0; font-family: monospace;">VSSUT Burla • Computer Science & Engineering</p>
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <div class="flex items-center gap-4 text-sm font-medium text-stone-600">
-                    <a href="https://github.com/Debasishpradhan28" target="_blank" rel="noopener noreferrer" class="hover:text-purple-600 transition-colors">GitHub</a>
-                    <a href="https://linkedin.com/in/debasish-pradhan-185508312" target="_blank" rel="noopener noreferrer" class="hover:text-purple-600 transition-colors">LinkedIn</a>
-                    <a href="mailto:pradhandebasish089@gmail.com" class="hover:text-purple-600 transition-colors">Email</a>
+            <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 1.25rem; font-size: 0.875rem; font-weight: 500; color: #57534e;">
+                    <a href="https://github.com/Debasishpradhan28" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">GitHub</a>
+                    <a href="https://linkedin.com/in/debasish-pradhan-185508312" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">LinkedIn</a>
+                    <a href="mailto:pradhandebasish089@gmail.com" style="text-decoration: none; color: inherit;">Email</a>
                 </div>
-                <a href="main.html" class="px-6 py-3 bg-stone-900 text-stone-50 rounded-full hover:bg-stone-800 transition-all text-xs font-semibold tracking-wider uppercase shadow-md">
-                    Launch Main Site
-                </a>
+                <a href="main.html" class="btn-dark" style="padding: 0.75rem 1.5rem; font-size: 0.75rem;">Launch Main Site</a>
             </div>
         </footer>
 
     </main>
 
-    
     <script>
         function simulateAI() {
             const input = document.getElementById('user-input').value.trim();
@@ -315,6 +232,5 @@
             }, 600);
         }
     </script>
-
 </body>
 </html>
